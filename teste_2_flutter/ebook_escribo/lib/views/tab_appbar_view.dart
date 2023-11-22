@@ -1,4 +1,4 @@
-import 'package:ebook_escribo/models/tab_appbar_model.dart';
+import 'package:ebook_escribo/views/books_grid_view.dart';
 import 'package:flutter/material.dart';
 
 class EBookTabView extends StatefulWidget {
@@ -8,40 +8,35 @@ class EBookTabView extends StatefulWidget {
   State<EBookTabView> createState() => _EBookTabViewState();
 }
 
-class _EBookTabViewState extends State<EBookTabView> { 
-
+class _EBookTabViewState extends State<EBookTabView> {
   @override
   Widget build(BuildContext context) {
-
-    TabAppBarModel _tabAppBarModel = const TabAppBarModel(
-      tabBarIcons: [
-        Tab(icon: Icon(Icons.book)),
-        Tab(icon: Icon(Icons.favorite)),
-      ],
-      tabBarTitles: [
-        'Catalogo de livros',
-        'Favoritos',
-      ],
-    );
+    const List<Tab> tabs = [
+      Tab(
+        icon: Icon(Icons.book),
+        text: 'catálogo de livros',
+      ),
+      Tab(
+        icon: Icon(Icons.favorite),
+        text: 'Favoritos',
+      ),
+    ];
 
     return DefaultTabController(
-  
-      length: _tabAppBarModel.tabBarIcons.length,
+      length: tabs.length,
       child: Scaffold(
         appBar: AppBar(
-        
-          bottom: TabBar(
-            tabs: _tabAppBarModel.tabBarIcons,
-            
+          bottom: const TabBar(
+            tabs: tabs,
           ),
         ),
-        body: const TabBarView(
-          
+        body: TabBarView(
           children: [
-            Center(child: Text('Esse é o tab de livros')),
-            Center(child: Text('Esse é o tab de favoritos')),
+            BookShelfGridView(),
+            const Center(
+              child: Text('Esse é o tab de favoritos'),
+            ),
           ],
-
         ),
       ),
     );
