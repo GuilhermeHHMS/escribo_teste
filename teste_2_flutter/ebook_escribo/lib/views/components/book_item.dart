@@ -52,8 +52,8 @@ class BookCard extends StatelessWidget {
             child: InkWell(
               onTap: onFavoritePressed,
               child: Icon(
-                isFavorite ? Icons.bookmark : Icons.bookmark_border,
-                color: isFavorite ? Colors.black : Colors.red,
+                book.isFavorite ? Icons.bookmark : Icons.bookmark_border,
+                color: book.isFavorite ? Colors.red : Colors.black,
                 size: 34.0,
               ),
             ),

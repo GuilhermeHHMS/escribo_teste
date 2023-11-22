@@ -3,34 +3,47 @@ import 'package:ebook_escribo/models/book_model.dart';
 import 'package:ebook_escribo/views/components/book_item.dart';
 import 'package:flutter/material.dart';
 
-class BookShelfGridView extends StatelessWidget {
-  BookShelfGridView({super.key});
+class BookShelfGridView extends StatefulWidget {
+  const BookShelfGridView({super.key});
+
+  @override
+  State<BookShelfGridView> createState() => _BookShelfGridViewState();
+}
+
+class _BookShelfGridViewState extends State<BookShelfGridView> {
   final BookController _bookController = BookController();
+  List<Book> bookShelf = [];
+
+  @override
+  void initState() {
+    _loadBooks();
+
+    super.initState();
+  }
+
+  Future<void> _loadBooks() async {
+    try {
+      List<Book>? books = await _bookController.getBooks();
+      setState(() {
+        bookShelf = books!;
+      });
+    } catch (error) {
+      print('Erro ao carregar dados: $error');
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
-    bool isFavorite = false;
     double screenWidth = MediaQuery.of(context).size.width;
     int crossAxisCount = (screenWidth / 200).floor();
 
     return Padding(
       padding: const EdgeInsets.all(8.0),
-      child: FutureBuilder<List<Book>?>(
-        future: _bookController.getBooks(),
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(child: CircularProgressIndicator());
-          } else if (snapshot.hasError) {
-            return Text('Erro ao carregar dados: ${snapshot.error}');
-          } else {
-            List<Book> bookShelf = snapshot.data ?? [];
-
-            if (bookShelf.isEmpty) {
-              return const Center(
-                child: Text('Nenhum livro disponível.'),
-              );
-            }
-            return GridView.builder(
+      child: bookShelf.isEmpty
+          ? const Center(
+              child: CircularProgressIndicator(),
+            )
+          : GridView.builder(
               itemCount: bookShelf.length,
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: crossAxisCount,
@@ -44,15 +57,16 @@ class BookShelfGridView extends StatelessWidget {
                 return BookCard(
                   book: book,
                   onTap: () {},
-                  onFavoritePressed: () =>
-                      _bookController.toggleFavorite(isFavorite),
-                  isFavorite: isFavorite,
+                  onFavoritePressed: () {
+                    setState(() {
+                      _bookController.toggleFavorite(bookShelf, index);
+                      print(book.isFavorite);
+                    });
+                  },
+                  isFavorite: book.isFavorite,
                 );
               },
-            );
-          }
-        },
-      ),
+            ),
     );
   }
 }

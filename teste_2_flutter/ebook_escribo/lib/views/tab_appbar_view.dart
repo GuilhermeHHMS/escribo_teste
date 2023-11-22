@@ -30,10 +30,10 @@ class _EBookTabViewState extends State<EBookTabView> {
             tabs: tabs,
           ),
         ),
-        body: TabBarView(
+        body: const TabBarView(
           children: [
             BookShelfGridView(),
-            const Center(
+            Center(
               child: Text('Esse é o tab de favoritos'),
             ),
           ],
