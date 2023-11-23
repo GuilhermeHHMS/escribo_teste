@@ -9,10 +9,9 @@ class EBookApp extends StatelessWidget {
   const EBookApp({super.key});
   @override
   Widget build(BuildContext context) {
-    return  MaterialApp(
-      theme: ThemeData(
-        useMaterial3: true,
-      ),
+    return MaterialApp(
+      theme:
+          ThemeData(useMaterial3: true, colorSchemeSeed: Colors.blueGrey[800]),
       debugShowCheckedModeBanner: false,
       home: const HomePage(),
     );

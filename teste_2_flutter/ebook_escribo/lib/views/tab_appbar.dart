@@ -1,4 +1,5 @@
-import 'package:ebook_escribo/views/books_grid_view.dart';
+import 'package:ebook_escribo/views/books_shelf_screen.dart';
+import 'package:ebook_escribo/views/favorite_books_screen.dart';
 import 'package:flutter/material.dart';
 
 class EBookTabView extends StatefulWidget {
@@ -32,10 +33,8 @@ class _EBookTabViewState extends State<EBookTabView> {
         ),
         body: const TabBarView(
           children: [
-            BookShelfGridView(),
-            Center(
-              child: Text('Esse é o tab de favoritos'),
-            ),
+            BookShelfScreen(),
+            FavoriteBooksScreen(),
           ],
         ),
       ),

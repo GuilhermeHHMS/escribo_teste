@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:ebook_escribo/services/api_service.dart';
 import 'package:ebook_escribo/models/book_model.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -8,32 +10,43 @@ class BookController {
 
   Future<List<Book>?> getBooks() async {
     try {
-      List<Book>? filteredBooks = await _apiService.fetchBooks();
+      List<Book>? newBooks = await _apiService.fetchBooks() ?? [];
+      List<Book>? cacheBooks = await loadSavedFavoritesState() ?? [];
 
-      return filteredBooks;
+      Set<int> shelfFilter = cacheBooks.map((book) => book.id).toSet();
+
+      List<Book> filteredBooks =
+          newBooks.where((book) => !shelfFilter.contains(book.id)).toList();
+
+      List<Book> mergedBooks = [...cacheBooks, ...filteredBooks];
+      _saveFavoritesState(
+          mergedBooks.map((book) => jsonEncode(book.toJson())).toList());
+
+      return mergedBooks;
     } catch (e) {
       Fluttertoast.showToast(msg: 'Não foi possivel carregar livros: $e');
-
-      print(e);
     }
     return null;
   }
 
   void toggleFavorite(List<Book> bookShelf, int index) {
     bookShelf[index].isFavorite = !bookShelf[index].isFavorite;
-    _saveFavoritesState(bookShelf.map((book) => book.isFavorite).toList());
+    _saveFavoritesState(
+        bookShelf.map((book) => jsonEncode(book.toJson())).toList());
   }
 
-  Future<List<bool>?> loadSavedFavoritesState() async {
+  Future<List<Book>?> loadSavedFavoritesState() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     final List<String>? savedData = prefs.getStringList('favorites');
     if (savedData != null) {
-      return savedData.map((fav) => bool.fromEnvironment(fav)).toList();
+      return savedData
+          .map((jsonString) => Book.fromJson(jsonDecode(jsonString)))
+          .toList();
     }
     return null;
   }
 
-  Future<void> _saveFavoritesState(List<bool> favoriteList) async {
+  Future<void> _saveFavoritesState(List<String> favoriteList) async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
 
     List<String>? favoriteData =

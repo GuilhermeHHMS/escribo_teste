@@ -1,4 +1,4 @@
-import 'package:ebook_escribo/views/tab_appbar_view.dart';
+import 'package:ebook_escribo/views/tab_appbar.dart';
 import 'package:flutter/material.dart';
 
 class HomePage extends StatelessWidget {
@@ -6,6 +6,6 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return EBookTabView();
+    return const EBookTabView();
   }
 }

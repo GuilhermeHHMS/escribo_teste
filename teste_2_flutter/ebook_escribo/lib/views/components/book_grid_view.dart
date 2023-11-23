@@ -1,37 +1,24 @@
-import 'package:ebook_escribo/controllers/book_controller.dart';
 import 'package:ebook_escribo/models/book_model.dart';
 import 'package:ebook_escribo/views/components/book_item.dart';
 import 'package:flutter/material.dart';
 
-class BookShelfGridView extends StatefulWidget {
-  const BookShelfGridView({super.key});
+class BookGridView extends StatefulWidget {
+  final List<Book> books;
+  final Function(Book) onFavoritePressed;
+  final bool showLoader;
+
+  const BookGridView({
+    super.key,
+    required this.books,
+    required this.onFavoritePressed,
+    this.showLoader = false,
+  });
 
   @override
-  State<BookShelfGridView> createState() => _BookShelfGridViewState();
+  State<BookGridView> createState() => _BookGridViewState();
 }
 
-class _BookShelfGridViewState extends State<BookShelfGridView> {
-  final BookController _bookController = BookController();
-  List<Book> bookShelf = [];
-
-  @override
-  void initState() {
-    _loadBooks();
-
-    super.initState();
-  }
-
-  Future<void> _loadBooks() async {
-    try {
-      List<Book>? books = await _bookController.getBooks();
-      setState(() {
-        bookShelf = books!;
-      });
-    } catch (error) {
-      print('Erro ao carregar dados: $error');
-    }
-  }
-
+class _BookGridViewState extends State<BookGridView> {
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
@@ -39,12 +26,12 @@ class _BookShelfGridViewState extends State<BookShelfGridView> {
 
     return Padding(
       padding: const EdgeInsets.all(8.0),
-      child: bookShelf.isEmpty
+      child: widget.books.isEmpty
           ? const Center(
               child: CircularProgressIndicator(),
             )
           : GridView.builder(
-              itemCount: bookShelf.length,
+              itemCount: widget.books.length,
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: crossAxisCount,
                 childAspectRatio: .75,
@@ -52,16 +39,13 @@ class _BookShelfGridViewState extends State<BookShelfGridView> {
                 crossAxisSpacing: 5,
               ),
               itemBuilder: (context, index) {
-                Book book = bookShelf[index];
+                Book book = widget.books[index];
 
                 return BookCard(
                   book: book,
                   onTap: () {},
                   onFavoritePressed: () {
-                    setState(() {
-                      _bookController.toggleFavorite(bookShelf, index);
-                      print(book.isFavorite);
-                    });
+                    widget.onFavoritePressed(book);
                   },
                   isFavorite: book.isFavorite,
                 );
