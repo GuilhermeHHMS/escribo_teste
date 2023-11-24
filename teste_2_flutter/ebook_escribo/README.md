@@ -1,16 +1,19 @@
-# ebook_escribo
+**autor** : Guilherme Henrique Marcondes de Souza.
 
-A new Flutter project.
+**data de inicio** : 2023-11-21.
 
-## Getting Started
+### Descrição:
 
-This project is a starting point for a Flutter application.
+Este é um leitor de E-books desenvolvido em Flutter, permitindo visualizar, baixar e realizar marcações em documentos do tipo "_.epub_". 
 
-A few resources to get you started if this is your first Flutter project:
+### Instalação:
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+* Baixe o arquivo "escribo_ebook_test.apk" presente na pasta APK do projeto principal.
+* instale o arquivo ***APK*** em um dispositivo *Android*.
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+### Como usar:
+
+* Aplicativo simples e pronto para uso a partir de sua instalação.
+* Toque sobre a capa de um livro para abrir as opções de baixar e visualizar. 
+(Essas opções só serão funcionais caso o usuário permita que o aplicativo gerencie o armazenamento interno, para baixar e recuperar doumentos do tipo "_.epub_")
+* Para favoritar um livro, basta tocar no icone de marcador no canto superior direito. Todos os livros favoritados estarão isolados na seção de "Favoritos".
