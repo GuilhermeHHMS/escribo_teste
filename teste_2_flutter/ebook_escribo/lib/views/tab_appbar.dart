@@ -18,7 +18,7 @@ class _EBookTabViewState extends State<EBookTabView> {
         text: 'catálogo de livros',
       ),
       Tab(
-        icon: Icon(Icons.favorite),
+        icon: Icon(Icons.bookmark_outlined),
         text: 'Favoritos',
       ),
     ];

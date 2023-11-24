@@ -1,7 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
-import 'package:vocsy_epub_viewer/epub_viewer.dart';
-
 import '../../controllers/book_controller.dart';
 import '../../models/book_model.dart';
 
@@ -36,32 +33,24 @@ class BookDialogHelper {
                       ),
                       subtitle: Text('by: ${book.author}'),
                     ),
-                    Container(
-                      margin: const EdgeInsets.symmetric(vertical: 20),
-                      child: Image.network(book.coverUrl),
+                    Flexible(
+                      child: Container(
+                        margin: const EdgeInsets.symmetric(
+                            vertical: 20, horizontal: 15),
+                        child: Image.network(
+                          book.coverUrl,
+                          scale: .5,
+                        ),
+                      ),
                     ),
                     isBookDownloaded
                         ? ElevatedButton(
-                            child: Text('Visualizar'),
-                            onPressed: () async {
-                              VocsyEpub.setConfig(
-                                themeColor: Theme.of(context).primaryColor,
-                                scrollDirection:
-                                    EpubScrollDirection.ALLDIRECTIONS,
-                                allowSharing: true,
-                                enableTts: true,
-                                nightMode: true,
-                              );
-                              // get current locator
-                              VocsyEpub.locatorStream.listen((locator) {
-                                print('LOCATOR: $locator');
-                              });
-                              VocsyEpub.open(
-                                book.epubPath ?? '',
-                              );
+                            child: const Text('Visualizar'),
+                            onPressed: () {
+                              bookController.bookViewer(book);
                             })
                         : ElevatedButton(
-                            child: Text('Baixar'),
+                            child: const Text('Baixar'),
                             onPressed: () {
                               _showProgressDialog(context);
 
@@ -70,9 +59,10 @@ class BookDialogHelper {
                                       bookShelf, bookShelf.indexOf(book))
                                   .then((_) {
                                 Navigator.pop(context);
-                                Fluttertoast.showToast(
-                                    msg: 'Download concluído');
-                              }).whenComplete(() => Navigator.pop(context));
+                              }).whenComplete(() {
+                                Navigator.pop(context);
+                                bookController.bookViewer(book);
+                              });
                             },
                           ),
                   ],
@@ -90,7 +80,14 @@ class BookDialogHelper {
       context: context,
       builder: (context) {
         return const Center(
-          child: CircularProgressIndicator(),
+          child: SizedBox(
+              child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text('Baixando'),
+              CircularProgressIndicator(),
+            ],
+          )),
         );
       },
     );

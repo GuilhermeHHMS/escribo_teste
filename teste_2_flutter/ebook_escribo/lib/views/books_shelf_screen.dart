@@ -32,7 +32,7 @@ class _BookShelfScreenState extends State<BookShelfScreen> {
         isLoaded = true;
       });
     } catch (error) {
-      print('Erro ao carregar dados: $error');
+      debugPrint('Erro ao carregar dados: $error');
     }
   }
 
@@ -43,15 +43,15 @@ class _BookShelfScreenState extends State<BookShelfScreen> {
       books: bookShelf,
       onTap: (Book book) {
         BookDialogHelper.showBookOptions(
-        context,
-        bookShelf,
-        bookShelf.indexOf(book),
-      );
+          context,
+          bookShelf,
+          bookShelf.indexOf(book),
+        );
       },
       onFavoritePressed: (Book book) {
         setState(() {
           _bookController.toggleFavorite(bookShelf, bookShelf.indexOf(book));
-          print(book.isFavorite);
+          debugPrint(book.isFavorite.toString());
         });
       },
     );

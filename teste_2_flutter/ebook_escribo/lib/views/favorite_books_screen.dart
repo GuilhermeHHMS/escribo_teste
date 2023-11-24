@@ -14,6 +14,7 @@ class FavoriteBooksScreen extends StatefulWidget {
 
 class _FavoriteBooksScreenState extends State<FavoriteBooksScreen> {
   final BookController _bookController = BookController();
+  final BookCacheHandler _bookCacheHandler = BookCacheHandler();
   List<Book> favoriteBooks = [];
   bool isLoaded = false;
   @override
@@ -23,7 +24,7 @@ class _FavoriteBooksScreenState extends State<FavoriteBooksScreen> {
   }
 
   Future<void> _loadFavoriteBooks() async {
-    List<Book>? allBooks = await _bookController.loadSavedFavoritesState();
+    List<Book>? allBooks = await _bookCacheHandler.loadSavedFavoritesState();
     if (allBooks != null) {
       setState(() {
         favoriteBooks = allBooks.where((book) => book.isFavorite).toList();
@@ -51,7 +52,7 @@ class _FavoriteBooksScreenState extends State<FavoriteBooksScreen> {
               setState(() {
                 _bookController.toggleFavorite(
                     favoriteBooks, favoriteBooks.indexOf(book));
-                print(book.isFavorite);
+                debugPrint(book.isFavorite.toString());
               });
             },
           )
@@ -62,10 +63,12 @@ class _FavoriteBooksScreenState extends State<FavoriteBooksScreen> {
                 Text(
                   'Nenhum livro salvo.',
                   textScaleFactor: textScale * 2,
+                  style: const TextStyle(color: Colors.grey),
                 ),
                 Icon(
                   Icons.emoji_nature_outlined,
                   size: textScale * 45,
+                  color: Colors.grey,
                 )
               ],
             ),
