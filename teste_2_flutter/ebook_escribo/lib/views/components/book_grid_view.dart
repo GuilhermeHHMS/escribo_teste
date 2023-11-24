@@ -1,15 +1,21 @@
+import 'package:ebook_escribo/controllers/book_controller.dart';
 import 'package:ebook_escribo/models/book_model.dart';
-import 'package:ebook_escribo/views/components/book_item.dart';
+import 'package:ebook_escribo/views/components/book_card.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+
+import 'book_dialogs_components.dart';
 
 class BookGridView extends StatefulWidget {
   final List<Book> books;
+  final Function(Book) onTap;
   final Function(Book) onFavoritePressed;
   final bool showLoader;
 
   const BookGridView({
     super.key,
     required this.books,
+    required this.onTap,
     required this.onFavoritePressed,
     this.showLoader = false,
   });
@@ -43,7 +49,7 @@ class _BookGridViewState extends State<BookGridView> {
 
                 return BookCard(
                   book: book,
-                  onTap: () {},
+                  onTap:() => widget.onTap(book),
                   onFavoritePressed: () {
                     widget.onFavoritePressed(book);
                   },
@@ -53,4 +59,6 @@ class _BookGridViewState extends State<BookGridView> {
             ),
     );
   }
+
+  
 }

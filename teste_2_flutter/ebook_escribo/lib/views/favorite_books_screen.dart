@@ -3,6 +3,8 @@ import 'package:ebook_escribo/views/components/book_grid_view.dart';
 import 'package:flutter/material.dart';
 import 'package:ebook_escribo/controllers/book_controller.dart';
 
+import 'components/book_dialogs_components.dart';
+
 class FavoriteBooksScreen extends StatefulWidget {
   const FavoriteBooksScreen({super.key});
 
@@ -32,16 +34,41 @@ class _FavoriteBooksScreenState extends State<FavoriteBooksScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return BookGridView(
-      showLoader: isLoaded,
-      books: favoriteBooks,
-      onFavoritePressed: (Book book) {
-        setState(() {
-          _bookController.toggleFavorite(
-              favoriteBooks, favoriteBooks.indexOf(book));
-          print(book.isFavorite);
-        });
-      },
-    );
+    double textScale = MediaQuery.textScaleFactorOf(context);
+
+    return favoriteBooks.isNotEmpty
+        ? BookGridView(
+            showLoader: isLoaded,
+            books: favoriteBooks,
+            onTap: (Book book) {
+              BookDialogHelper.showBookOptions(
+                context,
+                favoriteBooks,
+                favoriteBooks.indexOf(book),
+              );
+            },
+            onFavoritePressed: (Book book) {
+              setState(() {
+                _bookController.toggleFavorite(
+                    favoriteBooks, favoriteBooks.indexOf(book));
+                print(book.isFavorite);
+              });
+            },
+          )
+        : Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  'Nenhum livro salvo.',
+                  textScaleFactor: textScale * 2,
+                ),
+                Icon(
+                  Icons.emoji_nature_outlined,
+                  size: textScale * 45,
+                )
+              ],
+            ),
+          );
   }
 }

@@ -3,6 +3,8 @@ import 'package:ebook_escribo/models/book_model.dart';
 import 'package:ebook_escribo/views/components/book_grid_view.dart';
 import 'package:flutter/material.dart';
 
+import 'components/book_dialogs_components.dart';
+
 class BookShelfScreen extends StatefulWidget {
   const BookShelfScreen({Key? key}) : super(key: key);
 
@@ -39,6 +41,13 @@ class _BookShelfScreenState extends State<BookShelfScreen> {
     return BookGridView(
       showLoader: isLoaded,
       books: bookShelf,
+      onTap: (Book book) {
+        BookDialogHelper.showBookOptions(
+        context,
+        bookShelf,
+        bookShelf.indexOf(book),
+      );
+      },
       onFavoritePressed: (Book book) {
         setState(() {
           _bookController.toggleFavorite(bookShelf, bookShelf.indexOf(book));

@@ -10,8 +10,11 @@ class EBookApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      theme:
-          ThemeData(useMaterial3: true, colorSchemeSeed: Colors.blueGrey[800]),
+      theme: ThemeData(
+        useMaterial3: true,
+        colorSchemeSeed: Colors.blueGrey[800],
+        fontFamily: 'PlayfairDisplay',
+      ),
       debugShowCheckedModeBanner: false,
       home: const HomePage(),
     );

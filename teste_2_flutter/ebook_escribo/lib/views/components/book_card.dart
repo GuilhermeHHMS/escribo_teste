@@ -28,19 +28,13 @@ class BookCard extends StatelessWidget {
                 children: [
                   Flexible(
                     child: Padding(
-                      padding: const EdgeInsets.all(8.0),
+                      padding: const EdgeInsets.all(2.0),
                       child: Image.network(book.coverUrl),
                     ),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Text(book.title),
-                        Text('by: ${book.author}'),
-                      ],
-                    ),
+                  ListTile(
+                    title: Text(book.title, style: TextStyle(fontWeight: FontWeight.bold),),
+                    subtitle: Text('by: ${book.author}'),
                   ),
                 ],
               ),
