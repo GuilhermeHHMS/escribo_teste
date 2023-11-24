@@ -8,7 +8,7 @@ Este é um leitor de E-books desenvolvido em Flutter, permitindo visualizar, bai
 
 ### Instalação:
 
-* Baixe o arquivo "escribo_ebook_test.apk".
+* Baixe o arquivo "escribo_ebook_test.apk" presente na pasta APK do projeto principal.
 * instale o arquivo ***APK*** em um dispositivo *Android*.
 
 ### Como usar:
