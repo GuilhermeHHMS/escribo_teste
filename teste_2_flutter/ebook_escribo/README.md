@@ -17,3 +17,6 @@ Este é um leitor de E-books desenvolvido em Flutter, permitindo visualizar, bai
 * Toque sobre a capa de um livro para abrir as opções de baixar e visualizar. 
 (Essas opções só serão funcionais caso o usuário permita que o aplicativo gerencie o armazenamento interno, para baixar e recuperar doumentos do tipo "_.epub_")
 * Para favoritar um livro, basta tocar no icone de marcador no canto superior direito. Todos os livros favoritados estarão isolados na seção de "Favoritos".
+<br>
+
+**A quantidade de livros exibidos na tela depende da resolução do celular. Para verificar a responsividade da tela, basta ativar a rotação e posicionar o celular/tablet na horizontal.**
